@@ -61,14 +61,14 @@ objects:
   displayName: Kiosk git Repo
   name: GIT_REPOSITORY_URL
   required: true
-  value: https://github.com/kevensen/openshift-kiosk
-- description: The repository reference for the VNC Dockerfile
-  displayName: VNC Dockerfile Repoistory Branch
+  value: https://github.com/kevensen/letsencrypt-container.git
+- description: The repository reference for the Dockerfile
+  displayName: Dockerfile Repoistory Branch
   name: GIT_REPOSITORY_REF
   required: true
   value: master
-- description: Set this to the subdirectory containing the VNC Dockerfile
-  displayName: VNC Dockerfile Context Directory
+- description: Set this to the subdirectory containing the Dockerfile
+  displayName: Dockerfile Context Directory
   name: GIT_CONTEXT_DIR
   required: false
 - description: A secret string used to configure the GitHub webhook.
