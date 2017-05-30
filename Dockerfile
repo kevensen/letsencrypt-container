@@ -4,7 +4,7 @@ MAINTAINER kevensen@redhat.com
 
 USER root
 
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm &&i \
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum clean all && \
     rm -rf /var/cache/yum/*
 
