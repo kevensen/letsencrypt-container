@@ -17,19 +17,24 @@ objects:
       description: Keeps track of changes in the application image
     name: letsencrypt
 - apiVersion: v1
+  kind: Route
+  metadata:
+    name: letsencrypt
+  spec:
+    host: ${APPLICATION_DOMAIN}
+    to:
+      kind: Service
+      name: web-service
+- apiVersion: v1
   kind: Service
   metadata:
     name: web-service
   spec:
     ports:
     - name: http
-      port: 80
+      port: 8080
       protocol: TCP
-      targetPort: 80
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: 443
+      targetPort: 8080
     selector:
       name: letsencrypt
 - apiVersion: v1
@@ -57,9 +62,43 @@ objects:
         secret: ${GITHUB_WEBHOOK_SECRET}
       type: GitHub
     - type: ConfigChange
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      description: Defines how to deploy the application server
+    name: letsencrypt
+  spec:
+    replicas: 1
+    selector:
+      name: letsencrypt
+    strategy:
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          name: letsencrypt
+        name: letsencrypt
+      spec:
+        containers:
+        - name: letsencrypt
+          image: letsencrypt
+          ports:
+          - containerPort: 80
+          - containerPort: 443
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - letsencrypt
+        from:
+          kind: ImageStreamTag
+          name: letsencrypt:latest
+      type: ImageChange
+    - type: ConfigChange
 parameters:
-- description: The URL of the repository containing the kiosk Dockerfiles
-  displayName: Kiosk git Repo
+- description: The URL of the repository containing the Dockerfile
+  displayName: Git Repo
   name: GIT_REPOSITORY_URL
   required: true
   value: https://github.com/kevensen/letsencrypt-container.git
@@ -77,3 +116,7 @@ parameters:
   from: '[a-zA-Z0-9]{40}'
   generate: expression
   name: GITHUB_WEBHOOK_SECRET
+- description: The exposed hostname that will route to the CakePHP service, if left
+    blank a value will be defaulted.
+  displayName: Application Hostname
+  name: APPLICATION_DOMAIN
