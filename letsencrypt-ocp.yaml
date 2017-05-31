@@ -57,6 +57,7 @@ objects:
         secret: ${GITHUB_WEBHOOK_SECRET}
       type: GitHub
     - type: ConfigChange
+parameters:
 - description: The URL of the repository containing the kiosk Dockerfiles
   displayName: Kiosk git Repo
   name: GIT_REPOSITORY_URL
