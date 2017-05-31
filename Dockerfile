@@ -12,6 +12,7 @@ RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' --enablerepo
     yum clean all && \
     rm -rf /var/cache/yum/*
 
-RUN chown -R 1001 /etc/letsencrypt
+RUN mkdir /etc/letsencrypt && \
+    chown -R 1001:0 /etc/letsencrypt
 
 USER 1001 
