@@ -4,8 +4,8 @@ labels:
   template: letsencrypt
 metadata:
   annotations:
-    description: Provides a webserver for downloading letsencrypt certificates
-    iconClass: icon-globe
+    description: Creates a container for running Letsencrypt jobs
+    iconClass: icon-python
     tags: tls,letsencrypt,http
   creationTimestamp: null
   name: letsencrypt
