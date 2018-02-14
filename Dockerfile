@@ -1,18 +1,23 @@
-FROM registry.access.redhat.com/rhscl/httpd-24-rhel7
+FROM registry.access.redhat.com/rhel:latest
 
-MAINTAINER kevensen@redhat.com
+LABEL maintainer="kevensen@redhat.com"
 
-USER root
 
-RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' gcc libpython-virtualenv -y && \
     yum clean all && \
     rm -rf /var/cache/yum/*
 
-RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' --enablerepo='rhel-7-server-optional-rpms' --enablerepo='epel' letsencrypt -y && \
-    yum clean all && \
-    rm -rf /var/cache/yum/*
-
-RUN mkdir /etc/letsencrypt && \
+RUN mkdir /opt/letsencrypt && \
+    useradd -u 1001 default -d /opt/letsencrypt && \
+    chown 1001:1001 /opt/letsencrypt && \
+    mkdir /etc/letsencrypt && \
     chown -R 1001:0 /etc/letsencrypt
 
-USER 1001 
+USER 1001
+
+RUN cd /opt/letsencrypt && \
+    virtualenv certbot && \
+    cd certbot && \
+    source bin/activate && \
+    pip install setuputils --upgrade && \
+    pip install certbot
