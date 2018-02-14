@@ -9,13 +9,12 @@ RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' \
     yum clean all && \
     rm -rf /var/cache/yum/*
 
-RUN mkdir /opt/letsencrypt && \
+RUN mkdir -p /opt/letsencrypt/{config,logs,work} && \
     useradd -u 1001 default -d /opt/letsencrypt && \
-    chown 1001:1001 /opt/letsencrypt && \
+    chown -R 1001:1001 /opt/letsencrypt && \
     mkdir /etc/letsencrypt && \
     chown -R 1001:0 /etc/letsencrypt && \
-    mkdir /var/log/letsencrypt && \
-    chown 1001:0 /var/log/letsencrypt
+
 
 USER 1001
 
