@@ -20,5 +20,5 @@ RUN cd /opt/letsencrypt && \
     cd certbot && \
     source bin/activate && \
     pip install setuputils --upgrade && \
-    pint install https://pypi.python.org/packages/70/75/472aa5db08ba5edc6f0aba20167ce3cfa239fb2465bfeb6c885731018b70/cryptography-2.1.4-cp27-cp27m-manylinux1_x86_64.whl#md5=f8334dd8504135a57bcf6efee17b1b55 && \
+    pip install https://pypi.python.org/packages/70/75/472aa5db08ba5edc6f0aba20167ce3cfa239fb2465bfeb6c885731018b70/cryptography-2.1.4-cp27-cp27m-manylinux1_x86_64.whl#md5=f8334dd8504135a57bcf6efee17b1b55 && \
     pip install certbot
