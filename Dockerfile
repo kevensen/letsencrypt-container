@@ -2,7 +2,6 @@ FROM registry.access.redhat.com/rhel:latest
 
 LABEL maintainer="kevensen@redhat.com"
 
-
 RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' \
         gcc \
         python-virtualenv \
@@ -25,3 +24,14 @@ RUN cd /opt/letsencrypt && \
     pip install --upgrade setuptools && \
     pip install https://pypi.python.org/packages/70/75/472aa5db08ba5edc6f0aba20167ce3cfa239fb2465bfeb6c885731018b70/cryptography-2.1.4-cp27-cp27m-manylinux1_x86_64.whl#md5=f8334dd8504135a57bcf6efee17b1b55 && \
     pip install certbot
+
+USER root
+
+EXPOSE 80
+EXPOSE 443
+
+RUN /usr/sbin/setcap 'cap_net_bind_service=+ep' /opt/letsencrypt/certbot/bin/certbot
+
+WORKDIR /opt/letsencrypt
+
+USER 1001
