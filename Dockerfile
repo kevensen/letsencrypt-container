@@ -3,7 +3,10 @@ FROM registry.access.redhat.com/rhel:latest
 LABEL maintainer="kevensen@redhat.com"
 
 
-RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' gcc python-virtualenv -y && \
+RUN yum install --disablerepo='*' --enablerepo='rhel-7-server-rpms' \
+        gcc \
+        python-virtualenv \
+        libffi-devel -y && \
     yum clean all && \
     rm -rf /var/cache/yum/*
 
